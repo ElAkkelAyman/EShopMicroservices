@@ -1,0 +1,9 @@
+product 
+
+{
+    "Name" : "New Product A",
+    "Category" : ["c1" , "c2"],
+    "Description" : "Desc",
+    "ImageFile" : "Image Product A",
+    "Price" : 199
+}

@@ -1,7 +1,4 @@
-﻿using BuildingBlocks.CQRS;
-using Catalog.API.Models;
-
-namespace Catalog.API.Products.CreateProduct
+﻿namespace Catalog.API.Products.CreateProduct
 {
     // represents the data that we need to create for a new product
 
@@ -11,15 +8,14 @@ public record CreateProductCommand(string Name, List<string> Category, string De
 public record CreateProductResult(Guid ID); // represents the response object
 
     // Handler is responsible for executing the command logic using the mediatR library
-    internal class CreateProductHandler : ICommandHandler<CreateProductCommand, CreateProductResult>
+    internal class CreateProductHandler(IDocumentSession session) : ICommandHandler<CreateProductCommand, CreateProductResult>
     {
         public async Task<CreateProductResult> Handle(CreateProductCommand command, CancellationToken cancellationToken)
         {
             // business logic to create a product
 
             // create product entity from command object 
-            
-             
+                        
             var product = new Product
             {
                 Name = command.Name,
@@ -30,12 +26,12 @@ public record CreateProductResult(Guid ID); // represents the response object
             };
 
             // save to db  TODO
-
+            session.Store(product);
+            await session.SaveChangesAsync(cancellationToken);
 
             // return createProductResult result
 
-            return new  CreateProductResult(Guid.NewGuid());
-            throw new NotImplementedException();
+            return new  CreateProductResult(product.Id);
         }
     }
 }
