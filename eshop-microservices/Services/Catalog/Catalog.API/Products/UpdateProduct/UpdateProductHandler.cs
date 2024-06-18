@@ -19,7 +19,7 @@ namespace Catalog.API.Products.UpdateProduct
             product.Description = command.Description;
             product.ImageFile = command.ImageFile;
             product.Price = command.Price.ToString();
-            session.Store(product);
+            session.Update(product);
             await session.SaveChangesAsync(cancellationToken);
 
             return new UpdateProductResult(product.Id);
